@@ -88,19 +88,23 @@ def create_message(bday_team, bday_list):
 
 
 def main():
-    # Draw a birthday team at random
-    bday_team = draw_team()
-    print(bday_team)
-
     # Get next month birthdays
     next_bdays = birthdays_next_month()
-    print(birthdays_next_month())
+    print('Next month birthdays:', birthdays_next_month())
 
-    # If there are birthdays next month, create e-mail and send
+    # If there are birthdays next month...
     if next_bdays:
+        # Draw a birthday team at random
+        bday_team = draw_team()
+        print('Birthday team:', bday_team)
+
+        # Create and send e-mail
+        mail_to = [member[1] for member in bday_team]
+        print(mail_to)
         msg, msg_html = create_message(bday_team, next_bdays)
         subject = 'Lembrete equipa de aniversários'
-        # notify.html_mail(subject, msg, msg_html)
+        for mail in mail_to:
+            notify.html_mail(subject, msg, msg_html, receiver=mail)
 
 
 if __name__ == '__main__':

@@ -65,4 +65,4 @@ def html_mail(subject, message, message_html, sender='aniceto.scripts@gmail.com'
     server.sendmail(sender, receiver, msg.as_string())
     server.close()
 
-    print('\nMail sent!')
+    print('\nMail sent to {}!'.format(receiver))
