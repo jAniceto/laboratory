@@ -64,8 +64,11 @@ def create_message(bday_team, bday_list):
 
     team_month = datetime.now().month + 1
 
+    # Subject
+    subject = 'Equipa de aniversários para {}'.format(month_dict[team_month])
+
     # Simple message
-    message = '''Olá\n\nFazes parte da equipa de aniversários para o mês de {}.
+    message = '''Olá\n\nA equipa de aniversários para o mês de {} é:
     '''.format(month_dict[team_month])
 
     # HTML message
@@ -78,13 +81,14 @@ def create_message(bday_team, bday_list):
         bdays_string += '<li>Dia {} - {}</li>'.format(bdays[2].replace('-', '/'), bdays[0])
 
     html_message = '''<p>Olá.</p>
-    <p>Fazes parte da equipa de aniversários para o mês de {}. Equipa: {}</p>
+    <p>A equipa de aniversários para o mês de {} é: {}</p>
     <p>Os aniversários em {} são:</p>
     <ul>{}</ul><br>
+    <p>Este e-mail foi enviado para todos os membros do grupo, excepto os aniversariantes.</p>
     <p>Zé Pedro<br><small>Esta mensagem é automática. Em caso de erro contactar joseaniceto@ua.pt.</small></p>
         '''.format(month_dict[team_month], team_string, month_dict[team_month], bdays_string)
 
-    return message, html_message
+    return subject, message, html_message
 
 
 def main():
@@ -99,12 +103,12 @@ def main():
         print('Birthday team:', bday_team)
 
         # Create and send e-mail
-        mail_to = [member[1] for member in bday_team]
-        print(mail_to)
-        msg, msg_html = create_message(bday_team, next_bdays)
-        subject = 'Lembrete equipa de aniversários'
-        for mail in mail_to:
-            notify.html_mail(subject, msg, msg_html, receiver=mail)
+        members_pool = group_info.birthdays()
+        mail_to = [member[1] for member in members_pool if member not in next_bdays]
+        print('Mail sent to:', mail_to)
+        sub, msg, msg_html = create_message(bday_team, next_bdays)
+        for mail_address in mail_to:
+            notify.html_mail(sub, msg, msg_html, receiver=mail_address)
 
 
 if __name__ == '__main__':
