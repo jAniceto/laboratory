@@ -1,16 +1,22 @@
 from random import randint
 from datetime import datetime
+import logging
 
 import group_info
 import notify
 
+
+logging.basicConfig(filename='log.txt', level=logging.DEBUG,
+                    format='%(asctime)s : %(levelname)s : %(message)s')
+
+GROUP_INFO = group_info.birthdays()
 
 def draw_team(team_size=2):
     """
     Draw group member for the birthday team.
     """
     team = []
-    members_pool = group_info.birthdays()
+    members_pool = GROUP_INFO
 
     for i in range(team_size):
         draw = randint(0, len(members_pool)-1)
@@ -46,7 +52,7 @@ def birthdays_next_month():
     team_month = datetime.now().month+1
     bday_list = []
 
-    for member in group_info.birthdays():
+    for member in GROUP_INFO:
         if int(member[2].split('-')[-1]) == team_month:
             bday_list.append(member)
 
@@ -94,22 +100,22 @@ def create_message(bday_team, bday_list):
 def main():
     # Get next month birthdays
     next_bdays = birthdays_next_month()
-    print('Next month birthdays:', birthdays_next_month())
+    logging.info('Next month birthdays: {}'.format(birthdays_next_month()))
 
     # If there are birthdays next month...
     if next_bdays:
         # Draw a birthday team at random
         bday_team = draw_team()
-        print('Birthday team:', bday_team)
+        logging.info('Birthday team: {}'.format(bday_team))
 
         # Create and send e-mail
-        members_pool = group_info.birthdays()
+        members_pool = GROUP_INFO
         mail_to = [member[1] for member in members_pool if member not in next_bdays]
-        print('Mail sent to:', mail_to)
         sub, msg, msg_html = create_message(bday_team, next_bdays)
         for mail_address in mail_to:
             notify.html_mail(sub, msg, msg_html, receiver=mail_address)
-
+        logging.info('Mail sent to: {}'.format(mail_to))
+        
 
 if __name__ == '__main__':
     main()

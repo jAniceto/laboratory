@@ -1,3 +1,9 @@
+.idea
+birthday-team/group_info_real.py
+birthday-team/group_info_test.py
+log.txt
+birthday-team/log.txt
+
 
 # Created by https://www.gitignore.io/api/python,pycharm,visualstudiocode
 
@@ -177,5 +183,3 @@ venv.bak/
 
 # End of https://www.gitignore.io/api/python,pycharm,visualstudiocode
 
-/.idea
-group_info_real.py
