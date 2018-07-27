@@ -1,9 +1,15 @@
-.idea
+### birthday-team ###
 birthday-team/group_info_real.py
 birthday-team/group_info_test.py
 log.txt
 birthday-team/log.txt
 
+### mailing-list-processing ###
+mailing-list-processing/contacts
+mailing-list-processing/sublists
+
+### Others ###
+.idea
 
 # Created by https://www.gitignore.io/api/python,pycharm,visualstudiocode
 
