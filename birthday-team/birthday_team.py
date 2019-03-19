@@ -3,7 +3,7 @@ from datetime import datetime
 import logging
 
 import group_info
-import notify
+import mail_notify
 
 
 logging.basicConfig(filename='log.txt', level=logging.DEBUG,
@@ -124,7 +124,7 @@ def main():
         mail_to = [member[1] for member in members_pool if member not in next_bdays]
         sub, msg, msg_html = create_message(bday_team, next_bdays)
         for mail_address in mail_to:
-            notify.html_mail(sub, msg, msg_html, receiver=mail_address)
+            mail_notify.html_mail(sub, msg, msg_html, receiver=mail_address)
         logging.info('Mail sent to: {}'.format(mail_to))
         
 
